@@ -80,8 +80,8 @@ class _FolderScreenState extends State<FolderScreen> {
     );
   }
 
-  void addFolder(BuildContext parentContext) {
-    showModalBottomSheet(
+  void addFolder(BuildContext parentContext) async {
+    await showModalBottomSheet(
       context: parentContext,
       backgroundColor: Colors.grey.withOpacity(0.1),
       barrierColor: Colors.grey.withOpacity(0.1),
@@ -100,7 +100,12 @@ class _FolderScreenState extends State<FolderScreen> {
             padding: EdgeInsets.all(10.0),
             decoration: BoxDecoration(
                 color: Colors.grey.shade300,
-                boxShadow: [BoxShadow(color: Colors.grey.shade100, offset: Offset(0, -2), blurRadius: 5)],
+                boxShadow: [
+                  BoxShadow(
+                      color: Colors.grey.shade100,
+                      offset: Offset(0, -2),
+                      blurRadius: 5)
+                ],
                 shape: BoxShape.rectangle,
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(20),
@@ -136,7 +141,10 @@ class _FolderScreenState extends State<FolderScreen> {
                         },
                         child: Text(
                           S.of(context).cancel,
-                          style: Theme.of(context).textTheme.headline5.copyWith(color: Colors.deepOrange.shade900),
+                          style: Theme.of(context)
+                              .textTheme
+                              .headline5
+                              .copyWith(color: Colors.deepOrange.shade900),
                         )),
                     FlatButton(
                         onPressed: () {
@@ -169,7 +177,8 @@ class ShowFolder extends StatelessWidget {
     return _savedStorage;
   }
 
-  Widget showDir(Directory dir, {double oldSpace = 0, double spaceUnit = 10, bool showHidden}) {
+  Widget showDir(Directory dir,
+      {double oldSpace = 0, double spaceUnit = 10, bool showHidden}) {
     assert(oldSpace >= 0 && spaceUnit >= 5);
     _mapExpand[dir.path] ??= {0: false, 1: false};
     showHidden ??= false;
@@ -185,10 +194,13 @@ class ShowFolder extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             GestureDetector(
-              onTap: () => setState(() => _mapExpand[dir.isAbsolute ? dir.path : dir.absolute.path][1]
+              onTap: () => setState(() => _mapExpand[
+                      dir.isAbsolute ? dir.path : dir.absolute.path][1]
                   ? null
-                  : _mapExpand[dir.isAbsolute ? dir.path : dir.absolute.path][0] =
-                      !_mapExpand[dir.isAbsolute ? dir.path : dir.absolute.path][0]),
+                  : _mapExpand[dir.isAbsolute ? dir.path : dir.absolute.path]
+                          [0] =
+                      !_mapExpand[dir.isAbsolute ? dir.path : dir.absolute.path]
+                          [0]),
               child: SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
@@ -199,8 +211,11 @@ class ShowFolder extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.all(5.0),
                       child: GestureDetector(
-                          onTap: () => setState(() => _mapExpand[dir.path][1] = !_mapExpand[dir.path][1]),
-                          child: _mapExpand[dir.path][1] ? Icon(Icons.check_box) : Icon(Icons.check_box_outline_blank)),
+                          onTap: () => setState(() => _mapExpand[dir.path][1] =
+                              !_mapExpand[dir.path][1]),
+                          child: _mapExpand[dir.path][1]
+                              ? Icon(Icons.check_box)
+                              : Icon(Icons.check_box_outline_blank)),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(5.0),
@@ -217,8 +232,10 @@ class ShowFolder extends StatelessWidget {
             if (_mapExpand[dir.isAbsolute ? dir.path : dir.absolute.path][0] &&
                 !_mapExpand[dir.isAbsolute ? dir.path : dir.absolute.path][1])
               for (final fs in fse)
-                if (fs is Directory && (showHidden || pt.basename(fs.path)[0] != '.'))
-                  showDir(fs, oldSpace: oldSpace + spaceUnit, spaceUnit: spaceUnit)
+                if (fs is Directory &&
+                    (showHidden || pt.basename(fs.path)[0] != '.'))
+                  showDir(fs,
+                      oldSpace: oldSpace + spaceUnit, spaceUnit: spaceUnit)
           ],
         );
       },
@@ -274,7 +291,9 @@ class FileView extends StatelessWidget {
       bool selectable,
 //      bool showAudioFile,
       bool childOnly})
-      : assert((folder == null && audio != null) || (folder != null && audio == null),
+      : assert(
+            (folder == null && audio != null) ||
+                (folder != null && audio == null),
             "both `folder` and `audio` params can't be null or not null"),
         //rightToLeft = //rightToLeft ?? false,
         currentSpace = currentSpace ?? 0,
@@ -314,9 +333,15 @@ class FileView extends StatelessWidget {
           Expanded(
             child: CheckboxListTile(
               value: false,
-              onChanged: (bool value) => this.onClick?.call(folder ?? audio, value),
-              title: Text(pt.basename(absolutePath), style: Theme.of(context).textTheme.subtitle2),
-              secondary: (folder != null) ? Icon(Icons.folder) : (audio != null) ? Icon(Icons.audiotrack) : Container(),
+              onChanged: (bool value) =>
+                  this.onClick?.call(folder ?? audio, value),
+              title: Text(pt.basename(absolutePath),
+                  style: Theme.of(context).textTheme.subtitle2),
+              secondary: (folder != null)
+                  ? Icon(Icons.folder)
+                  : (audio != null)
+                      ? Icon(Icons.audiotrack)
+                      : Container(),
               subtitle: audio == null
                   ? LimitedBox(maxWidth: 0.0, maxHeight: 0.0)
                   : Row(
@@ -337,7 +362,11 @@ class FileView extends StatelessWidget {
         Expanded(
           child: ListTile(
             onTap: () => this.onClick?.call(folder ?? audio),
-            leading: (folder != null) ? Icon(Icons.folder) : (audio != null) ? Icon(Icons.audiotrack) : Container(),
+            leading: (folder != null)
+                ? Icon(Icons.folder)
+                : (audio != null)
+                    ? Icon(Icons.audiotrack)
+                    : Container(),
             subtitle: audio == null
                 ? LimitedBox(maxWidth: 0.0, maxHeight: 0.0)
                 : Row(
@@ -345,8 +374,11 @@ class FileView extends StatelessWidget {
                       Text(audio.duration),
                     ],
                   ),
-            trailing: audio == null ? LimitedBox(maxWidth: 0.0, maxHeight: 0.0) : Text("${audio.sizeStr}"),
-            title: Text(pt.basename(absolutePath), style: Theme.of(context).textTheme.subtitle2),
+            trailing: audio == null
+                ? LimitedBox(maxWidth: 0.0, maxHeight: 0.0)
+                : Text("${audio.sizeStr}"),
+            title: Text(pt.basename(absolutePath),
+                style: Theme.of(context).textTheme.subtitle2),
           ),
         ),
       ],
@@ -361,6 +393,7 @@ class FileView extends StatelessWidget {
           folder: fd,
           onClick: onClick,
           childOnly: childOnly,
+          onLongTapOrRightClick: onLongTapOrRightClick,
           currentSpace: currentSpace + spaceUnit,
           spaceUnit: spaceUnit,
 //          extend: extend,
@@ -376,6 +409,7 @@ class FileView extends StatelessWidget {
           audio: ad,
           onClick: onClick,
           childOnly: childOnly,
+          onLongTapOrRightClick: onLongTapOrRightClick,
           currentSpace: currentSpace + spaceUnit,
           spaceUnit: spaceUnit,
 //            extend: extend,

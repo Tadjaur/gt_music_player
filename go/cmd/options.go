@@ -6,12 +6,9 @@ import (
 )
 
 var options = []flutter.Option{
-	flutter.WindowInitialDimensions(360, 620),
-	flutter.WindowTransparentBackground(true),
-	flutter.WindowDimensionLimits(360, 620, 360, 620),
-	// flutter.WindowMode(flutter.WindowModeBorderless),
+	flutter.WindowInitialDimensions(800, 1280),
 	flutter.AddPlugin(&path_provider.PathProviderPlugin{
-		VendorName:      "Tadjaur",
-		ApplicationName: "get_music_player",
+		VendorName:      "taurAppSolution",
+		ApplicationName: "gtmusicplayer",
 	}),
 }

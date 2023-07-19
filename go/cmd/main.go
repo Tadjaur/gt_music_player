@@ -20,18 +20,12 @@ func main() {
 	mainOptions := []flutter.Option{
 		flutter.OptionVMArguments(strings.Split(vmArguments, ";")),
 		flutter.WindowIcon(iconProvider),
-		flutter.ForcePixelRatio(1),
 	}
-	fmt.Println("MAIN_OPTIONS ::> ", mainOptions[0], mainOptions[1])
-	fmt.Println("CMD ARG ::> ", os.Args)
-	fmt.Println("::::::::::::::::::: APPLICATION RUN START :::::::::::::::::::")
 	err := flutter.Run(append(options, mainOptions...)...)
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)
 	}
-
-	fmt.Println("::::::::::::::::::: APPLICATION RUN END :::::::::::::::::::")
 }
 
 func iconProvider() ([]image.Image, error) {

@@ -9,6 +9,7 @@ version: 1.0.0+1
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
+  flutter: ">=1.10.0 <2.0.0"
 
 dependencies:
   flutter:
@@ -19,7 +20,7 @@ dependencies:
   sqflite:
   path:
   mini_player:
-    path: ../plugins/mini_player
+    git: https://github.com/Tadjaur/dart_mini_audio.git
   platform_device_id:
   cupertino_icons:
   package_info:

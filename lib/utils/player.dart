@@ -67,16 +67,23 @@ class Player {
 //    if (isPlaying)
 //      _miniPlayer.playNext(pathOfAudio(playlist));
 //    else {
+    Fn.log(_miniPlayerInit: "wait");
     final done = await _miniPlayer.init(pathOfAudio(playlist));
     Fn.log(_miniPlayerInit: done);
     wasInit = done;
-    if (done) return await _miniPlayer.sendEvent(AudioEvent.play).then((done) => isPlaying = done);
+    if (done)
+      return await _miniPlayer
+          .sendEvent(AudioEvent.play)
+          .then((done) => isPlaying = done);
 //    }
     this.playlist.addAll(playlist);
     return false;
   }
 
   List<String> pathOfAudio(List<AudioData> playlist) {
-    return [for (final audioData in playlist) join(audioData.parentPath, audioData.name)];
+    return [
+      for (final audioData in playlist)
+        join(audioData.parentPath, audioData.name)
+    ];
   }
 }
